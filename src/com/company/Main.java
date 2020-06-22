@@ -1,77 +1,54 @@
 package com.company;
-import com.sun.corba.se.impl.resolver.SplitLocalResolverImpl;
+import com.sun.media.sound.JARSoundbankReader;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
+import sun.management.AgentConfigurationError;
 
-import java.util.Random;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+//If the list A is sorted, the algorithm always returns true.
+//• If the list A is not 90% sorted, the algorithm returns false with probability at least 2/3.
+// We need to find the minimum number of Iterations to achieve the result with 2/3 probability that the list is not sorted.
+// 2/3 is approx == 0.666
+// The probability of landing on elements that provide true output is  1 - 2/n when k iterations are performed total is
+// (1- 2/n)^k <= 1/3 <= 0.3333 (not more than 1/3)
+// gives k >= log(3)*n/2; // at least n
+// this means that is k is less than n then it will provide correct result but not with 2/3 probability.
+// implementing the algorithm with k = 8 gives the result as
 
-public class Main {
 
-    public static void main(String[] a)
+
+import java.util.*;
+
+public class Main{
+
+    public static void main(String[] args)
     {
-         Scanner sc = new Scanner(System.in);
-         int s = sc.nextInt();
-         int[] a1 = new int[s];
-         for(int i = 0; i < s; i++)
-         {
-             a1[i] = sc.nextInt();
-         }
-         int result = findUniModal(a1, 0, s - 1);
-         int result2 = findUniModalNaive(a1, 0, s - 1);
-         if(result == -1 || result2 == -1)
-             System.out.println("Not Found!");
-         else if(result == result2)
-         {
-             System.out.println("Found at " + "Index : " + result);
-         }
-         else
-             System.out.println("Error!");
-
-         // Stress test
-        /*Random r = new Random();
-         while(true)
-         {
-             int n = r.nextInt(100);
-             int[] array = new int[n];
-             for(int j = 0; j < n; j++)
-             {
-                 array[j] = r.nextInt();
-             }
-             int r1 = findUniModal(array, 0, n - 1);
-             int r2 = findUniModalNaive(array, 0, n - 1);
-             if(r1 != r2)
-             {
-                 System.out.println("error");
-             }
-             else
-                 System.out.println("okay!");
-         }*/
-    }
-    private static int findUniModal(int[] array, int startIndex, int endIndex)
-    {
-
-        int m = (startIndex + endIndex)/2;  // running time - O(nlogn)
-        if(m == 0) return array[0];   //only happen in the case of 1 or 2 elements in the array.
-        if((m + 1 <= endIndex)&&(startIndex <= endIndex)&&(m > 0)) {
-            if ((array[m] >= array[m - 1]) && (array[m] >= array[m + 1])) {
-                return m;
-            } else if ((array[m] >= array[m - 1]) && (array[m] <= array[m + 1]))
-                return findUniModal(array, m + 1 , endIndex);
-            else if ((array[m] <= array[m - 1]) && (array[m] >= array[m + 1]))
-                return findUniModal(array, startIndex, m);
-        }
-            return -1;
-    }
-    private static int findUniModalNaive(int[] array, int startIndex, int endIndex)
-    { if(endIndex <= 1) return array[0];    // running time - O(n)
-        int result;
-        for(int i = 1; i <= (endIndex - 1); i++)
+        Scanner scanner = new Scanner(System.in);
+        int[] papers = new int[10];
+        for(int i = 0; i < 10; i++)
         {
-            if((array[i] >= array[i + 1])&&(array[i] >= array[i - 1]))
-            {
-                return i;
-            }
+            papers[i] = scanner.nextInt();
         }
-        return -1;
+        findProbability(papers);
     }
-}
+    private static void findProbability(int[] examPapers)
+    {
+        Random r = new Random();
+        boolean ifSorted;
 
+        int n = 0;
+        while (n < 10) {
+            int randomIndex = r.nextInt(8) + 1; // assuming size is 9
+            ifSorted = (examPapers[randomIndex] >= examPapers[randomIndex - 1]) && (examPapers[randomIndex] <= examPapers[randomIndex + 1]);
+            System.out.println("Trial: " + n + " " + (ifSorted));
+            n++;
+        }
+
+
+    }
+
+
+
+}

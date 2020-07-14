@@ -1,0 +1,71 @@
+This solves the problem on page 205 on Introduction to Algorithms textbook prescribed by the course.
+#problem 
+8-1 Probabilistic lower bounds on comparison sorting
+In this problem, we prove a probabilistic omega(n lg n)lower bound on the running time
+of any deterministic or randomized comparison sort on n distinct input elements.
+We begin by examining a deterministic comparison sort A with decision tree TA.
+We assume that every permutation of A’s inputs is equally likely.
+
+a. Suppose that each leaf of TA is labeled with the probability that it is reached
+given a random input. Prove that exactly n! leaves are labeled 1/n! and that the
+rest are labeled 0.
+
+ANS : Consider an array of size n with elements numbered from 1 to n. 
+any possible permutation of this array can be the final output. This follows the mention in the question ( We assume that every permutation of A’s inputs is equally likely.)
+therefore, there are n! possible outputs. This means that there are n! leaves ( decision tree has ouput at the leaves). It also follows that reaching any of these n! leaves is qually likely.
+therefore, these are labelled as 1/n! and rest zero.
+
+b. Let D.T / denote the external path length of a decision tree T ; that is, D.T /
+is the sum of the depths of all the leaves of T . Let T be a decision tree with
+k>1 leaves, and let LT and RT be the left and right subtrees of T . Show that
+D(T) =  D(LT) + D(RT) +  k.
+
+ANS : There are more than one approaches to this porblem.
+My first approach is :
+a decision tree has 2^l leaves at the last level 'l'. Total leaves are k. ( numbering of levels 0 ..... l)
+according to D(T) definition : D(T) = sigma(i : 1 -> k)d(i) where d(i) is the depth of ith leaf. (limits can be taken from 0 to k - 1 too!).
+labelling the levels from 0 to l - 1.
+2^(l - 1) = k
+l = 1 + log2(k).
+there are 1 + log2(k) levels in the decision tree.
+total leaves = k 
+D(T) roughly is k*(1 + log2(k)) = k + log2(k)*k = k + k/2*log2(k) + k/2*log2(k) = k + D(LT) + D(RT). (since for D(LT) = D(RT) = l' = K/2(1 + log2(k) - 1) = k/2*log2(k))
+(assumption : lt contains k/2 leaves , rt contains k/2 leaves)
+
+My second approach (formal):
+according to D(T) definition : D(T) = sigma(i : 1 -> k)d(i) where d(i) is the depth of ith leaf. (limits can be taken from 0 to k - 1 too!).
+D(LT) = sigma(i : 1 -> i0)d(i) 
+D(LT) = i0(log2(k) + 1 - 1) = i0(log2(k))
+D(RT) = sigma(i : i0 + 1 -> k)d(i)
+D(RT) = (k - i0)*(log2(k) + 1 - 1) = (k - i0)(log2(k))
+D(LT) + D(RT) + K = klog2(k) + K = k(1 + log2(k)) = D(T). (this solution will work for any i0; no assumptions made)
+
+c. Let d(k) be the minimum value of D(T) over all decision trees T with k>1
+leaves. Show that d(k) min(1<=i<=k - 1) {d(i) + d(k - i) + k}. (Hint: Consider
+a decision tree T with k leaves that achieves the minimum. Let i0 be the number
+of leaves in LT and k - i0 the number of leaves in RT.)
+
+ANS: Simple solution would be to consider a decision tree with k leaves. this has i0 leaves on the lt and k - i0 on the rt.
+another decision tree will contain i0 + 1 on the lt and k - i0 - 1 on the rt.
+another will contain i0 - 1 on the lt and k - i0 + 1 on the rt.
+induction can be used.
+base case :
+k = 2;
+d(2) = min(1<=i<=1)(d(i) + d(2 - i) + 2) 
+d(2) = min((2*d(1) + 2)) (d(0) = d(1) = 0)
+d(2) = 2; which is true. this trees 
+/*\
+*  *
+assume k = k1 is true
+d(k1) = min(1 <= i <= k1 - 1)(d(i) + d(k1 - i) + k1)
+prove that k = k1 + 1 is true
+d(k1 + 1) = min(1 <= i <= k1)(d(i) + d(k1 - i + 1) + k1 + 1)
+// to do.
+
+
+d. Prove that for a given value of k>1 and i in the range 1  i  k  1, the
+function i lg i C .k  i /lg.k  i / is minimized at i D k=2. Conclude that
+d.k/ D .k lg k/.
+
+e. Prove that D.TA/ D .nŠ lg.nŠ//, and conclude that the average-case time to
+sort n elements is .n lg n/

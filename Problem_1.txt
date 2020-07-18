@@ -58,14 +58,31 @@ d(2) = 2; which is true. this trees
 *  *
 assume k = k1 is true
 d(k1) = min(1 <= i <= k1 - 1)(d(i) + d(k1 - i) + k1)
+that is d(k1) is the minimum value of all D(T) over all decision trees with k1 > 1 leaves.
 prove that k = k1 + 1 is true
-d(k1 + 1) = min(1 <= i <= k1)(d(i) + d(k1 - i + 1) + k1 + 1)
-// to do.
+d(k) = d(k1 + 1) = minimum value of all D(T) over all decision treesswith k1 + 1 > 1 or k1 > 0 or k > 1
+we know that d(k1) is min(1 <= i <= k1 - 1)(d(i) + d(k1 - i) + k1) -> (1)
+put k1 + 1 = k in 1 this implies k1 = k - 1
+d(k1 + 1) = d(k) =min(1 <= i <= k - 2)(d(i) + d(k - i - 1) + k - 1)  = min(1 <= i <= k - 1)(d(i) + d(k - i) + k)
+hence proved.
 
 
-d. Prove that for a given value of k>1 and i in the range 1  i  k  1, the
-function i lg i C .k  i /lg.k  i / is minimized at i D k=2. Conclude that
-d.k/ D .k lg k/.
+d. Prove that for a given value of k>1 and i in the range 1 <= i <= k - 1, the
+function i lg i + (k - i)*lg.(k - i ) is minimized at i = k/2. Conclude that
+d(k)= omega(k * lg k).
+ANS : f(i) = i*lgi + (k - i) * lg(k - i)
+f(i)/di = i/i + lgi - (k - i)/(k - i) - lg(k - i) = 0
+0 + lgi - lg(k - i) = 0
+lgi/(k - i) = 0
+lg(k - i)/i = 0 = (k - i)/i = 1 
+k - i = i
+k = 2*i
+i = k/2 hence proved.
+d(k) = min(1<=i<=k - 1) {d(i) + d(k - i) + k}.
+d(k) = min(1 <= i <= k - 1) { i*lgi + (k - i)*lg(k - i) + k} see previous questions to get explaination.
+sub i = k/2
+d(k) = k/2*lg(k/2) + k/2lgk/2 + k
+d(k) = k*lgk + k >= k*lgk
+d(k) = omega(k*lgk).
 
-e. Prove that D.TA/ D .nŠ lg.nŠ//, and conclude that the average-case time to
-sort n elements is .n lg n/
+
